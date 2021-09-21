@@ -1,0 +1,20 @@
+Sample	Age	Sex	Comorbs
+Hip_01	53.00	f	hypertension
+Hip_02	84.00	f	"ischaemic heart disease, type II diabetes dellitus, asthma, hypertension, peripheral neuropathy, venothromboembolism, vitamin D deficienency, B12 and folate deficiency"
+Hip_03	88.00	f	"type II diabetes mellitus, chronic kideny disease, atrial fibrillation, divericular disease, hypertension"
+Hip_04	83.00	f	"hypothyroid, hypertension, osteoarthritis"
+Hip_05	66.00	f	"hypothyroid, raised cholesterol, hypertension, "
+Hip_06	45.00	f	
+Hip_07	82.00	m	"chronic obstructive pulmonary disease, gastro-oesophageal reflux disease, iron deficient anaemia"
+Hip_08	74.00	f	"atrial fibrillation, pulmonary hypertension, iron deficient aneamia"
+Hip_09	64.00	m	"chronic kideny disease, type II diabetes mellitus"
+Hip_10	62.00	m	"type II diabetes mellitus, hypertension"
+Hip_11	61.00	f	hypertension
+Hip_12	78.00	F	hypertension
+Hip_13	25.00	m	
+Hip_14	72.00	f	"chronic kidney disease, type II diabetes mellitus, hypertension, hypothyroidism, vitamin D deficiency"
+Femur_01	22.00	m	
+ACL_01	14.00	m	
+ACL_02	15.00	m	
+Paediatric_01	13.00	m	
+Paediatric_02	1.00	f	
