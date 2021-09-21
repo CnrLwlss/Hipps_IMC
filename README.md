@@ -1,7 +1,6 @@
 # Detecting respiratory chain deficiency in osteoblasts of older patients 
-## Hipps et al. (2021)
 
-Data and analysis from Hipps et al. (2021)(in preparation)
+Data and analysis from Hipps et al. (2021, in preparation).
 
 This analysis starts from tabular protein expression data, which is the output from image analysis described in the manuscript.  It calculates the proportion of osteoblasts which are RC deficient and generates some plots to visualise the results.
 
