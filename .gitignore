@@ -37,3 +37,5 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+*.pdf
+analysis/02_Osteocalcin_VDAC_mask_n_CombinationsQuantified.txt
