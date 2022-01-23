@@ -39,3 +39,4 @@ vignettes/*.pdf
 .Renviron
 *.pdf
 analysis/02_Osteocalcin_VDAC_mask_n_CombinationsQuantified.txt
+*.png

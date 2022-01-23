@@ -1,20 +1,14 @@
-Sample	Age	Sex	Comorbs
-Hip_01	53.00	f	hypertension
-Hip_02	84.00	f	"ischaemic heart disease, type II diabetes dellitus, asthma, hypertension, peripheral neuropathy, venothromboembolism, vitamin D deficienency, B12 and folate deficiency"
-Hip_03	88.00	f	"type II diabetes mellitus, chronic kideny disease, atrial fibrillation, divericular disease, hypertension"
-Hip_04	83.00	f	"hypothyroid, hypertension, osteoarthritis"
-Hip_05	66.00	f	"hypothyroid, raised cholesterol, hypertension, "
-Hip_06	45.00	f	
-Hip_07	82.00	m	"chronic obstructive pulmonary disease, gastro-oesophageal reflux disease, iron deficient anaemia"
-Hip_08	74.00	f	"atrial fibrillation, pulmonary hypertension, iron deficient aneamia"
-Hip_09	64.00	m	"chronic kideny disease, type II diabetes mellitus"
-Hip_10	62.00	m	"type II diabetes mellitus, hypertension"
-Hip_11	61.00	f	hypertension
-Hip_12	78.00	F	hypertension
-Hip_13	25.00	m	
-Hip_14	72.00	f	"chronic kidney disease, type II diabetes mellitus, hypertension, hypothyroidism, vitamin D deficiency"
-Femur_01	22.00	m	
-ACL_01	14.00	m	
-ACL_02	15.00	m	
-Paediatric_01	13.00	m	
-Paediatric_02	1.00	f	
+Sample	Patient	Age	Sex	Surgery	Bone	Indication	Comorbs	OsteoMeds
+Paediatric_02	Paediatric 1	1.5	Female	Open reduction and pelvic osteotomy	Ilium	Developmental dysplasia of the hip		
+Paediatric_01	Paediatric 2	13	Male	Excision of a  bone bridge and fat graft	Tibia	Physeal injury  and growth arrest		
+Femur_01	Paediatric 3	19	Male	Intramedullary nail and bone graft	Femoral shaft	Leg length discrepancy after trauma		
+Hip_06	Hip 1	45	Female	Total hip replacement	Femoral neck	Osteoarthritis		
+Hip_01	Hip 2	53	Female	Total hip replacement	Femoral neck	Osteoarthritis	hypertension	Omeprazole/lisinopril
+Hip_10	Hip 3	62	Male	Total hip replacement	Femoral neck	Osteoarthritis	"type II diabetes mellitus, hypertension"	"Lisinopril, metformin atorvastatin, Adalat"
+Hip_09	Hip 4	64	Male	Total hip replacement	Femoral neck	Osteoarthritis	"chronic kidney disease, type II diabetes mellitus"	"Dialysis, Atorvastatin, Diltiazem, Furosemide, "
+Hip_05	Hip 5	66	Female	Total hip replacement	Femoral neck	Osteoarthritis	"hypothyroid, raised cholesterol, hypertension, "	"Lansoprazole, Levothyroxine, losartan, simvastatin"
+Hip_08	Hip 6	74	Female	Total hip replacement	Femoral neck	Osteoarthritis	"atrial fibrillation, pulmonary hypertension,iron-deficiency anaemia"	"Omeprazole, Bisoprolol, Rivaroxaban"
+Hip_07	Hip 7	82	Female	Total hip replacement	Femoral neck	Osteoarthritis	"chronic obstructive pulmonary disease, gastro-oesophageal reflux disease,iron-deficiency anaemia"	"Omeprazole, steroid inhalers - tiotropium, fluticasone, Seretide"
+Hip_04	Hip 8	83	Female	Total hip replacement	Femoral neck	Failed Fixation	"hypothyroid, hypertension, osteoarthritis"	"Calcichew d3,cholecalciferoll, furosemide, levothyroxine, risedronate"
+Hip_02	Hip 9	84	Female	Total hip replacement	Femoral neck	Osteoarthritis	"ischaemic heart disease, type II diabetes mellitus, asthma, hypertension, peripheral neuropathy, venothromboembolism, vitamin D deficiency, B12 and folate deficiency"	"Atorvastatin, Metformin, Wafarin"
+Hip_03	Hip 10	88	Female	Total hip replacement	Femoral neck	Osteoarthritis	"type II diabetes mellitus, chronic kidney disease, atrial fibrillation, diverticular disease, hypertension"	"Furosemide, Atorvastatin"

@@ -56,8 +56,8 @@ pdfname = paste(froot,"_stripped.pdf",sep="")
 
 sink(paste(froot,"CombinationsQuantified.txt",sep="_"))
 
-pdf(pdfname,height=8.27, width=11.69, useDingbats=FALSE)
-#png(pngname,height=827*2, width=1169*2, pointsize=12*(827/480)*2)
+#pdf(pdfname,height=8.27, width=11.69, useDingbats=FALSE)
+png(pngname,height=827*2, width=1169*2, pointsize=12*(827/480)*1.5)
  amyv = read.delim("AmySignallingVDAC.txt",header=FALSE,stringsAsFactors=FALSE)
 
  dat = read.delim(fname,sep="\t",stringsAsFactors=FALSE,na.strings="N/A")
@@ -69,18 +69,19 @@ pdf(pdfname,height=8.27, width=11.69, useDingbats=FALSE)
  dat = dat[!dat$Item.Name%in%dropROI,]
 
  op=par(mfrow=c(1,2))
- plot(density(log(dat$Mean.VDAC)),ylim=c(0,1.5),main="log(VDAC) distributions",lwd=2)
+ plot(density(log(dat$Mean.VDAC)),ylim=c(0,1.5),xlab="log(VDAC)",lwd=2,cex.lab=1.55,cex.axis=1.55,main="")
  points(density(log(amyv$V1)),type="l",col="red",lwd=2)
- legend("topright",legend=c("DanH","AmyV"),col=c("black","red"),lwd=2)
+ legend("topright",legend=c("This work","Warren et al. (2020)"),col=c("black","red"),lwd=2)
 
- plot(density(dat$Mean.VDAC),ylim=c(0,1.0),main="VDAC distributions",lwd=2)
+ plot(density(dat$Mean.VDAC),ylim=c(0,1.0),xlab="VDAC",lwd=2,cex.lab=1.55, cex.axis = 1.55,main="")
  points(density(amyv$V1),type="l",col="red",lwd=2)
- legend("topright",legend=c("DanH","AmyV"),col=c("black","red"),lwd=2)
+ legend("topright",legend=c("This work","Warren et al. (2020)"),col=c("black","red"),lwd=2)
  par(op)
 
  mitochan = "Mean.VDAC"
  chans = colnames(dat)[grepl("Mean.",colnames(dat))]
  chans = chans[chans!=mitochan]
+ chans = chans[chans!="Mean.Cathepsin.K"]
  #chans = paste("Mean.",c("SDHA","NDUFB8","GRIM19","COX4","MTCO1"),sep="")
  
  res = data.frame(matrix(0.0, ncol = length(chans), nrow = length(samps),dimnames=list(samps,chans)))
@@ -98,6 +99,7 @@ pdf(pdfname,height=8.27, width=11.69, useDingbats=FALSE)
  ctrls = c("Paediatric_01","Femur_01")
  #samps = samps[!samps%in%ctrls]
  samps = metad$Sample
+ #samps = c("Paediatric_01","Paediatric_02","Femur_01", "Hip_01", "Hip_02", "Hip_03", "Hip_04", "Hip_05", "Hip_06", "Hip_07", "Hip_08", "Hip_09", "Hip_10")
 
  for (s in samps){
  print(paste(froot,s))
@@ -105,8 +107,10 @@ pdf(pdfname,height=8.27, width=11.69, useDingbats=FALSE)
  sdat$Mean.TOM22 = as.numeric(sdat$Mean.TOM22)
  sdat$Item.Name = sub(".*? ", "", sdat$Item.Name)
 
- mlabs = paste(s,metad[s,"Age"],metad[s,"Sex"])
- mlab = paste(mlabs,"\nN =",length(unique(sdat$ID)))
+ mlabs = paste(metad[s,"Patient"],metad[s,"Age"],metad[s,"Sex"])
+ mlabs2 = paste(metad[s,"Patient"],paste(metad[s,"Age"],"y.o."),metad[s,"Sex"],sep=" ")
+ #mlabs = paste(metad[s,"Age"],metad[s,"Sex"])
+ mlab = paste(mlabs2,"N =",length(unique(sdat$ID)))
 
  cdat = dat[dat$Sample%in%ctrls,]
  cdat$Mean.TOM22 = as.numeric(cdat$Mean.TOM22)
@@ -123,7 +127,7 @@ pdf(pdfname,height=8.27, width=11.69, useDingbats=FALSE)
  #sdat$ccol = colvec[sdat$cluster]
 
  #op = par(mfrow=c(3,4),mar=c(4,4,1,1))
- op = par(mfrow=c(2,3),mar=c(4,4,1,1))
+ op = par(mfrow=c(2,3),mar=c(4.5,5,1.75,1))
  #for(chan in chans){
  #  xaxrng = c(0.001,max(as.numeric(dat[,mitochan]),na.rm=TRUE))
  #  yaxrng = c(0.001,max(as.numeric(dat[,chan]),na.rm=TRUE))
@@ -131,21 +135,23 @@ pdf(pdfname,height=8.27, width=11.69, useDingbats=FALSE)
  #}
  #plot.new()
  #text(0.5,0.5,paste(s,"(linear)",sep="\n"), cex = 2.0,col="red")
- for(chan in chans[chans!="Mean.TOM22"]){
-   stripchart(sdat[[chan]]~sdat$Item.Name,vertical=TRUE,ylab=chan,method="jitter",jitter=0.1,pch=16,col=rgb(0,0,0,0.15),las=2,main=mlabs,cex.axis=0.75)
- }
- plot.new()
- plot.new()
+ #for(chan in chans[chans!="Mean.TOM22"]){
+ #  stripchart(sdat[[chan]]~sdat$Item.Name,vertical=TRUE,ylab=chan,method="jitter",jitter=0.1,pch=16,col=rgb(0,0,0,0.15),las=2,main=mlabs,cex.axis=0.75)
+ #}
+ #plot.new()
+ #plot.new()
  for(chan in chans[chans!="Mean.TOM22"]){
    lchan = log(sdat[[chan]])
    itemname = sdat$Item.Name
-   stripchart(lchan[is.finite(lchan)]~itemname[is.finite(lchan)],vertical=TRUE,ylab=paste("log(",chan,")",sep=""),method="jitter",jitter=0.1,pch=16,col=rgb(0,0,0,0.15),las=2,main=mlabs,cex.axis=0.75)
- }
+   stripchart(lchan[is.finite(lchan)]~itemname[is.finite(lchan)],vertical=TRUE,ylab=paste("log(",chan,")",sep=""),method="jitter",jitter=0.1,pch=16,col=rgb(0,0,0,0.15),las=2,main=mlabs,cex.axis=1.25,cex.lab=2,cex.main=2,cex=0.5)
+   boxplot(lchan[is.finite(lchan)]~itemname[is.finite(lchan)],axes=FALSE,add=TRUE,notch=FALSE,outline=FALSE,col=NULL,border="red",pars = list(boxwex = 0.5, staplewex = 0.5, outwex = 0.5))
+
+}
  plot.new()
  plot.new()
  par(op)
 
- figcomps = c("(CI)","(CI)","(CII)","(CIV)","(CIV)","ATP")
+ figcomps = c("A (CI)","B (CI)","C (CII)","D (CIV)","E (CIV)","F (CV, ATP synthase)")
  figlabs = c("A","B","C","D","E","F")
  figchans = c("Mean.NDUFB8","Mean.GRIM19","Mean.SDHA","Mean.COX4","Mean.MTCO1","Mean.OSCP")
  names(figcomps)=figchans
@@ -154,7 +160,7 @@ pdf(pdfname,height=8.27, width=11.69, useDingbats=FALSE)
 
  patres=list()
 
- op = par(mfrow=c(2,4),mar=c(4,4,1,1))
+ op = par(mfrow=c(2,3),mar=c(5,5,1.25,1),oma=c(0.5,0.5,3,0.5))
  for(mitochan in c("Mean.VDAC")){
  #for(chan in chans[chans!="Mean.TOM22"]){
  for(chan in figchans){
@@ -203,25 +209,26 @@ pdf(pdfname,height=8.27, width=11.69, useDingbats=FALSE)
      res_up[s,chan] = propU
      res_down[s,chan] = propD
    }else{res_sdha[s,chan] = prop}
-   mlabp = paste(signif(100*(prop),2),"% different, ",signif(100*(propU),2),"% over & ",signif(100*(propD),2),"% under", sep="")
+   mlabp = paste(signif(100*(prop),2),"% diff. ",signif(100*(propU),2),"% up ",signif(100*(propD),2),"% down", sep="")
 
    plot(xctrl,yctrl,xlim=log(xaxrng), ylim=log(yaxrng), main=mlabp,
       xlab=paste("log(",mitochan,")",sep=""),ylab=paste("log(",chan,")",sep=""),pch=16,col=rgb(0,0,0,0.05),
-      cex=0.5,cex.axis=1.25,cex.lab=1.4,type="n",cex.main=0.9)
+      cex=0.75,cex.axis=1.5,cex.lab=2.0,type="n",cex.main=1.8)
 
    #points(xpat,ypat,pch=16,col=sdat$ccol,cex=0.5)
-   points(xpat[is.finite(xpat)&is.finite(ypat)],ypat[is.finite(xpat)&is.finite(ypat)],pch=16,col=ifelse(inner,rgb(0,0,0,0.05),rgb(1,0,0,0.1)),cex=0.5)
+   points(xpat[is.finite(xpat)&is.finite(ypat)],ypat[is.finite(xpat)&is.finite(ypat)],pch=16,col=ifelse(inner,rgb(0,0,0,0.05),rgb(1,0,0,0.1)),cex=0.75)
 
    #lapply(clines, lines, lwd=4, col="green")
-   contour(dens, levels=levels, labels=prob, add=T,lwd=2)
+   contour(dens, levels=levels, labels=prob, add=T,lwd=2,col="blue")
    #mtext(side=3, line=-2, text=figlabs[chan], adj=0.02, outer=T,cex=2)
-   mtext(side=3, line=-1.75, text=figcomps[chan], adj=0.02, outer=F,cex=1.5)
+   mtext(side=3, line=-1.75, text=figcomps[chan], adj=0.02, outer=F,cex=1.25)
 
    
  }
- plot.new()
- plot.new()
- text(0.5,0.5,mlab, cex = 2.5,col="black")
+ #plot.new()
+ #plot.new()
+ #text(0.5,0.5,mlab, cex = 2.5,col="black")
+ 
  if(FALSE){
  cm = log(cdat[,mitochan])
  pm = log(sdat[,mitochan])
@@ -237,6 +244,7 @@ pdf(pdfname,height=8.27, width=11.69, useDingbats=FALSE)
  }
  }
  par(op)
+title(mlab,outer=TRUE,line=-1)
 
  patdf = do.call(cbind.data.frame,patres)
  N = dim(patdf)[1]
@@ -301,15 +309,15 @@ for(resdf in list(res,res_up,res_down)){
 if(resdf == res){rlab = "Different from controls"}
 if(resdf == res_up){rlab = "Above controls"}
 if(resdf == res_down){rlab = "Below controls"}
-for(ch in chans){
+for(ch in c("Mean.NDUFB8","Mean.GRIM19","Mean.SDHA","Mean.COX4","Mean.MTCO1","Mean.OSCP")){
   mlab = paste(rlab,gsub("Mean.","",ch),sep="\n")
-  mlab = gsub("OSCP","ATP Synthase",mlab)
+  #mlab = gsub("OSCP","ATP Synthase",mlab)
   
-  plot(resdf$Age,100*resdf[[ch]],pch=16,cex=2,col=ifelse(resdf$Sex=="f",rgb(1,0,0,0.5),rgb(0,0,1,0.5)),xlab = "Age (y)", ylab="Cells different to controls (%)"
+  plot(resdf$Age,100*resdf[[ch]],pch=16,cex=2,col=ifelse(resdf$Sex=="Female",rgb(1,0,0,0.5),rgb(0,0,1,0.5)),xlab = "Age (y)", ylab="Cells different to controls (%)"
   ,ylim=c(0,30),xlim=c(0,100),main=mlab,cex.lab=1.45,cex.axis=1.45,cex.main=2.0)
   abline(h=5,lty=2,lwd=3)
 }
-plot.new()
+#plot.new()
 legend("topleft",legend=c("Male","Female"),pch=16,col=c(rgb(0,0,1,0.5),rgb(1,0,0,0.5)),cex=2)
 #if(identical(resdf,res)) {text(0,0,"x-axis: VDAC1",cex=2,pos=4)}else{text(0,0,"x-axis: SDHA",cex=2,pos=4)}
 }
@@ -320,23 +328,38 @@ sink()
 }
 
 
-pdf("Fig4.pdf",height=8.27, width=11.69, useDingbats=FALSE)
+fc = c(Mean.NDUFB8 = "(CI)", Mean.GRIM19 = "(CI)", Mean.SDHA = "(CII)", 
+Mean.COX4 = "(CIV)", Mean.MTCO1 = "(CIV)", Mean.OSCP = "(CV, ATP synthase)"
+)
+
+patids = c("P01", "P02", "P03", "H01", "H02", "H03", "H04", "H05", "H06", "H07", "H08", "H09","H10")
+names(patids) = c("Paediatric_02", "Paediatric_01", "Femur_01", "Hip_06", "Hip_01", "Hip_10", "Hip_09", "Hip_05", "Hip_08", "Hip_07", "Hip_04", "Hip_02","Hip_03")
+
+#pdf("Fig4.pdf",height=8.27, width=11.69, useDingbats=FALSE)
+png("Fig4.png",height=827*2, width=1169*2, pointsize=12*(827/480)*1.5)
 resdf = res_down
-chans = c("Mean.NDUFB8","Mean.GRIM19","Mean.SDHA","Mean.MTCO1","Mean.COX4","Mean.OSCP")
+chans = c("Mean.NDUFB8","Mean.GRIM19","Mean.SDHA","Mean.COX4","Mean.MTCO1","Mean.OSCP")
 op = par(mfrow=c(2,3),mar=c(5,5,2,1))
 for(ch in chans){
-  mlab = gsub("Mean.","",ch)
-  mlab = gsub("OSCP","ATP Synthase",mlab)
+  mlab = paste(gsub("Mean.","",ch),fc[ch])
+  #mlab = gsub("OSCP","ATP Synthase",mlab)
   
-  plot(resdf$Age,100*resdf[[ch]],pch=16,cex=2,col=ifelse(resdf$Sex=="f",rgb(1,0,0,0.5),rgb(0,0,1,0.5)),xlab = "Age (y)", ylab="Cells below controls (%)"
+  
+  plot(resdf$Age,100*resdf[[ch]],pch=16,cex=2,col=ifelse(resdf$Sex=="Female",rgb(1,0,0,0.5),rgb(0,0,1,0.5)),xlab = "Age (y)", ylab="Cells below controls (%)"
   ,ylim=c(0,17.5),xlim=c(0,100),main=mlab,cex.lab=2.45,cex.axis=1.45,cex.main=2.0)
-  abline(h=5,lty=2,lwd=3)
+  abline(h=5,lty=2,lwd=3,col="grey")
+  text(resdf$Age,100*resdf[[ch]],patids[rownames(resdf)],pos=3,cex=0.85)
+
 }
 #plot.new()
 #legend("topleft",legend=c("Male","Female"),pch=16,col=c(rgb(0,0,1,0.5),rgb(1,0,0,0.5)),cex=2)
 #if(identical(resdf,res)) {text(0,0,"x-axis: VDAC1",cex=2,pos=4)}else{text(0,0,"x-axis: SDHA",cex=2,pos=4)}
 par(op)
 dev.off()
+
+# Write summaries to file
+write.csv(res_down,"Cells_below.csv")
+write.csv(res_up,"Cells_above.csv")
 
 
 
