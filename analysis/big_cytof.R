@@ -56,8 +56,8 @@ pdfname = paste(froot,"_stripped.pdf",sep="")
 
 sink(paste(froot,"CombinationsQuantified.txt",sep="_"))
 
-#pdf(pdfname,height=8.27, width=11.69, useDingbats=FALSE)
-png(pngname,height=827*2, width=1169*2, pointsize=12*(827/480)*1.5)
+pdf(pdfname,height=8.27, width=11.69, useDingbats=FALSE)
+#png(pngname,height=827*2, width=1169*2, pointsize=12*(827/480)*1.5)
  amyv = read.delim("AmySignallingVDAC.txt",header=FALSE,stringsAsFactors=FALSE)
 
  dat = read.delim(fname,sep="\t",stringsAsFactors=FALSE,na.strings="N/A")
@@ -335,20 +335,29 @@ Mean.COX4 = "(CIV)", Mean.MTCO1 = "(CIV)", Mean.OSCP = "(CV, ATP synthase)"
 patids = c("P01", "P02", "P03", "H01", "H02", "H03", "H04", "H05", "H06", "H07", "H08", "H09","H10")
 names(patids) = c("Paediatric_02", "Paediatric_01", "Femur_01", "Hip_06", "Hip_01", "Hip_10", "Hip_09", "Hip_05", "Hip_08", "Hip_07", "Hip_04", "Hip_02","Hip_03")
 
-#pdf("Fig4.pdf",height=8.27, width=11.69, useDingbats=FALSE)
-png("Fig4.png",height=827*2, width=1169*2, pointsize=12*(827/480)*1.5)
+pdf("Fig5.pdf",height=8.27, width=11.69, useDingbats=FALSE)
+#png("Fig5.png",height=827*2, width=1169*2, pointsize=12*(827/480)*1.5)
 resdf = res_down
+older = resdf[grepl("H",patids[rownames(resdf)]),]
 chans = c("Mean.NDUFB8","Mean.GRIM19","Mean.SDHA","Mean.COX4","Mean.MTCO1","Mean.OSCP")
 op = par(mfrow=c(2,3),mar=c(5,5,2,1))
 for(ch in chans){
   mlab = paste(gsub("Mean.","",ch),fc[ch])
   #mlab = gsub("OSCP","ATP Synthase",mlab)
+  y = older[[ch]]*100
+  x = older$Age
+  newx = seq(0,100,1)
+  mod = lm(y~x)
+  pred = predict(mod,newdata=data.frame(x=newx), interval="confidence",level = 0.95)
   
-  
-  plot(resdf$Age,100*resdf[[ch]],pch=16,cex=2,col=ifelse(resdf$Sex=="Female",rgb(1,0,0,0.5),rgb(0,0,1,0.5)),xlab = "Age (y)", ylab="Cells below controls (%)"
-  ,ylim=c(0,17.5),xlim=c(0,100),main=mlab,cex.lab=2.45,cex.axis=1.45,cex.main=2.0)
+  plot(NULL,xlab = "Age (y)", ylab="Cells below controls (%)",ylim=c(0,17.5),xlim=c(0,100),main=mlab,cex.lab=2.45,cex.axis=1.45,cex.main=2.0)
   abline(h=5,lty=2,lwd=3,col="grey")
+  #abline(mod, col="blue",lwd=3)
+  #lines(newx, pred[,2], col="blue", lty=2)
+  #lines(newx, pred[,3], col="blue", lty=2)
+  points(resdf$Age,100*resdf[[ch]],pch=16,cex=2,col=ifelse(resdf$Sex=="Female",rgb(1,0,0,0.5),rgb(0,0,1,0.5)))
   text(resdf$Age,100*resdf[[ch]],patids[rownames(resdf)],pos=3,cex=0.85)
+  print(paste(mlab,"p-value:",summary(mod)$coefficients[2,4]))
 
 }
 #plot.new()
